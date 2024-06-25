@@ -138,7 +138,7 @@ bbq_hmt = black_box_hamiltonian
 
 def make_dispersive(H, fock_trunc, fzpfs=None, f0s=None, chi_prime=False,
                     use_1st_order=False):
-    r"""
+    """
     Input: Hamiltonian Matrix.
         Optional: phi_zpfs and normal mode frequencies, f0s.
         use_1st_order : deprecated
@@ -152,7 +152,7 @@ def make_dispersive(H, fock_trunc, fzpfs=None, f0s=None, chi_prime=False,
     if hasattr(H, '__len__'):  # is it an array / list?
         [H_lin, H_nl] = H
         H = H_lin + H_nl
-    else:  # make sure its a quanutm object
+    else:  # make sure its a quantum object
         assert type(
             H) == qutip.qobj.Qobj, "Please pass in either a list of Qobjs or Qobj for the Hamiltonian"
 
@@ -222,7 +222,7 @@ def make_dispersive(H, fock_trunc, fzpfs=None, f0s=None, chi_prime=False,
     else:
         def closest_state_to(s):
             def distance(s2):
-                return (s.dag() * s2[1]).norm()
+                return np.abs(s.dag() * s2[1])
             return max(zip(evals, evecs), key=distance)
 
     f1s = [closest_state_to(fock_state_on({i: 1}))[0] for i in range(N)]
